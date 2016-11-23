@@ -89,17 +89,32 @@ public class vcproducto {
     }
     public DefaultTableModel mostrarproductoscod(String cod){
         objcon.conexion();
-        DefaultTableModel tablaprocod=new DefaultTableModel();
+        DefaultTableModel tablaprocod;
         String[] titulos={"CODIGO","NOMBRE","PRECIO","STOCK","ESTADO","CATEGORIA"};
+        tablaprocod=new DefaultTableModel(null,titulos);
         String[] datospro=new String[6];
         try{
             prsta=objcon.con.prepareStatement("SELECT COD_PRO,NOM_PRO,PRE_U_PRO,STOCK_PRO,ESTADO,NOM_CAT "+
                     "FROM PRODUCTOS INNER JOIN CATEGORIA ON (PRODUCTOS.COD_CAT=CATEGORIA.COD_CAT) "+
                     "WHERE COD_PRO LIKE ?+'%' ORDER BY CAST(SUBSTRING(COD_PRO,2,10) AS INT) ASC");
             prsta.setString(1, cod);
+            if(cod==null || cod.charAt(1)=='0'){
+                
+                prsta.setString(1, "P");
+            }
+            else{
+                prsta.setString(1, cod);
+            }
             rs=prsta.executeQuery();
             while(rs.next()){
                 datospro[0]=rs.getString("COD_PRO");
+                datospro[1]=rs.getString("NOM_PRO");
+                datospro[2]=rs.getString("PRE_U_PRO");
+                datospro[3]=rs.getString("STOCK_PRO");
+                datospro[4]=rs.getString("ESTADO");
+                datospro[5]=rs.getString("NOM_CAT");
+                
+                tablaprocod.addRow(datospro);
             }
             objcon.cerrarconexion(rs, prsta);
             return tablaprocod;

@@ -83,9 +83,9 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
     }
     public void busquedadocd(){
         String cod;
-        //cod="P"+String.valueOf(jspcodigo.getValue());
-        cod="P1";
-        tablaproupd(cod);
+        cod="P"+String.valueOf(jspcodigo.getValue());
+        DefaultTableModel tablaprod=objproconsu.mostrarproductoscod(cod);
+        tablaproducto.setModel(tablaprod);
         
     }
 
@@ -105,7 +105,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         rbporcod = new javax.swing.JRadioButton();
         rbpornom = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        combobuscar = new javax.swing.JComboBox<String>();
+        combobuscar = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jspcodigo = new javax.swing.JSpinner();
