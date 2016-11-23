@@ -87,26 +87,26 @@ public class vcproducto {
             return null;
         }
     }
-    public DefaultComboBoxModel codpro(String letras){
+    public DefaultTableModel mostrarproductoscod(String cod){
         objcon.conexion();
-        DefaultComboBoxModel modelopro=new DefaultComboBoxModel();
+        DefaultTableModel tablaprocod=new DefaultTableModel();
+        String[] titulos={"CODIGO","NOMBRE","PRECIO","STOCK","ESTADO","CATEGORIA"};
+        String[] datospro=new String[6];
         try{
-            prsta=objcon.con.prepareStatement("SELECT COD_PRO FROM PRODUCTOS WHERE COD_PRO LIKE 'P'+?+'%' ORDER BY CAST(SUBSTRING(COD_PRO,2,10)AS INT)");
-            if(letras==null){
-                prsta.setString(1, "");
-            }
-            else{
-                prsta.setString(1, letras);
-            }
+            prsta=objcon.con.prepareStatement("SELECT COD_PRO,NOM_PRO,PRE_U_PRO,STOCK_PRO,ESTADO,NOM_CAT "+
+                    "FROM PRODUCTOS INNER JOIN CATEGORIA ON (PRODUCTOS.COD_CAT=CATEGORIA.COD_CAT) "+
+                    "WHERE COD_PRO LIKE ?+'%' ORDER BY CAST(SUBSTRING(COD_PRO,2,10) AS INT) ASC");
+            prsta.setString(1, cod);
             rs=prsta.executeQuery();
             while(rs.next()){
-                modelopro.addElement(rs.getString("NOM_PRO"));
+                datospro[0]=rs.getString("COD_PRO");
             }
             objcon.cerrarconexion(rs, prsta);
-            return modelopro;
+            return tablaprocod;
+            
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "ERROR"+ e);
+            JOptionPane.showMessageDialog(null, "ERROR "+e);
             objcon.cerrarconexion(rs, prsta);
             return null;
         }

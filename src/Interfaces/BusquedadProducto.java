@@ -32,6 +32,14 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         combobuscar.setModel(objproconsu.nombrepro(null));
         combobuscar.getEditor().setItem(null);
         combobusquedad();
+        if(rbpornom.isSelected()){
+            combobuscar.setVisible(true);
+            jspcodigo.setVisible(false);
+        }
+        else if(rbporcod.isSelected()){
+            jspcodigo.setVisible(true);
+            combobuscar.setVisible(false);
+        }
         tablaproupd(null);
     }
     public void tablaproupd(String letritas){
@@ -43,7 +51,6 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
             public void keyReleased(KeyEvent evt){
                 String textoescrito=combobuscar.getEditor().getItem().toString();
                 if(evt.getKeyCode()>=65 && evt.getKeyCode()<=90 || evt.getKeyCode()>=96 && evt.getKeyCode()<=105 || evt.getKeyCode()==8){
-                    if(rbpornom.isSelected()){
                         combobuscar.setModel(objproconsu.nombrepro(textoescrito));
                         tablaproupd(textoescrito);
                         if(combobuscar.getItemCount()>0){
@@ -61,26 +68,6 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
                             combobuscar.addItem(textoescrito);
 
                         }
-                    }
-                    else if(rbporcod.isSelected()){
-                        combobuscar.setModel(objproconsu.codpro(textoescrito));
-                        tablaproupd(textoescrito);
-                        if(combobuscar.getItemCount()>0){
-                            combobuscar.showPopup();
-                            if(evt.getKeyCode()!=8){
-                                ((JTextComponent)combobuscar.getEditor().getEditorComponent()).select(textoescrito.length(), 
-                                        combobuscar.getEditor().getItem().toString().length());
-
-                            }
-                            else{
-                                combobuscar.getEditor().setItem(textoescrito);
-                            }
-                        }
-                        else{
-                            combobuscar.addItem(textoescrito);
-
-                        }
-                    }
                     
                 }
                 else if(evt.getKeyCode()==32){
@@ -93,6 +80,13 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
             }
 
         });
+    }
+    public void busquedadocd(){
+        String cod;
+        //cod="P"+String.valueOf(jspcodigo.getValue());
+        cod="P1";
+        tablaproupd(cod);
+        
     }
 
     /**
@@ -111,8 +105,10 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         rbporcod = new javax.swing.JRadioButton();
         rbpornom = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        combobuscar = new javax.swing.JComboBox<>();
+        combobuscar = new javax.swing.JComboBox<String>();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jspcodigo = new javax.swing.JSpinner();
 
         setClosable(true);
 
@@ -159,9 +155,16 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         jLabel2.setText("ESCRIBA EL NOMBRE O CODIGO A BUSCAR");
 
         combobuscar.setEditable(true);
-        combobuscar.setEnabled(false);
 
         jLabel3.setText("Mensaje");
+
+        jLabel4.setText("P ");
+
+        jspcodigo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jspcodigoStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -170,20 +173,29 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(263, 263, 263)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 515, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(rbporcod)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbpornom)))
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(combobuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(rbporcod)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(rbpornom)))
+                                .addGap(58, 58, 58)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(combobuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(279, 279, 279)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jspcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -198,11 +210,15 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
                     .addComponent(rbporcod)
                     .addComponent(rbpornom)
                     .addComponent(combobuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jspcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,23 +226,32 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
 
     private void rbporcodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbporcodActionPerformed
         // TODO add your handling code here:
-        if(rbporcod.isSelected()){
-            combobuscar.setEnabled(true);
+        if(rbpornom.isSelected()){
+            combobuscar.setVisible(true);
+            jspcodigo.setVisible(false);
         }
-        else{
-            combobuscar.setEnabled(false);
+        else if(rbporcod.isSelected()){
+            jspcodigo.setVisible(true);
+            combobuscar.setVisible(false);
         }
     }//GEN-LAST:event_rbporcodActionPerformed
 
     private void rbpornomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbpornomActionPerformed
         // TODO add your handling code here:
         if(rbpornom.isSelected()){
-            combobuscar.setEnabled(true);
+            combobuscar.setVisible(true);
+            jspcodigo.setVisible(false);
         }
-        else{
-            combobuscar.setEnabled(false);
+        else if(rbporcod.isSelected()){
+            jspcodigo.setVisible(true);
+            combobuscar.setVisible(false);
         }
     }//GEN-LAST:event_rbpornomActionPerformed
+
+    private void jspcodigoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jspcodigoStateChanged
+        // TODO add your handling code here:
+        busquedadocd();
+    }//GEN-LAST:event_jspcodigoStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -235,7 +260,9 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jspcodigo;
     private javax.swing.JRadioButton rbporcod;
     private javax.swing.JRadioButton rbpornom;
     private javax.swing.JTable tablaproducto;
