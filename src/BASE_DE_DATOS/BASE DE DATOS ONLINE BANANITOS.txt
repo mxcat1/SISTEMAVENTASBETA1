@@ -1,0 +1,23 @@
+BASE DE DATOS EN DINAHOSTING
+
+PANEL https://dinahosting.com/hosting/demo-panel-hosting
+USUARIO===xxmxcatxx
+CONTRASEÑA===nicoll159753
+
+LINK SQL SERVER -----sql96.sql.dinaserver.com
+USUARIO====mxcat
+CONTRASEÑA====159753
+
+BASE DE DATOS EN SMARTER ASP.NET
+
+PANEL https://member3-1.smarterasp.net/account/loginform?go=1&exit=1
+USUARIO====ardininho
+CONTRASEÑA===ardininho159753
+
+NOMBRE DE LA BASE DE DATOS ===DB_A12AFD_BANANITOS
+LINK SQL SERVER   ----sql5007.smarterasp.net
+
+USUARIO====DB_A12AFD_BANANITOS_admin
+CONTRASEÑA===mxcat159753
+
+eso es todo
