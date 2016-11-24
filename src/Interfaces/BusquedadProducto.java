@@ -50,11 +50,13 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         combobuscar.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent evt){
                 String textoescrito=combobuscar.getEditor().getItem().toString();
+                if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+                    regresodatospro(null, textoescrito);
+                }
                 if(evt.getKeyCode()>=65 && evt.getKeyCode()<=90 || evt.getKeyCode()>=96 && evt.getKeyCode()<=105 || evt.getKeyCode()==8){
                         combobuscar.setModel(objproconsu.nombrepro(textoescrito));
                         tablaproupd(textoescrito);
                         if(combobuscar.getItemCount()>0){
-                            combobuscar.setSelectedIndex(1);
                             combobuscar.showPopup();
                             if(evt.getKeyCode()!=8){
                                 ((JTextComponent)combobuscar.getEditor().getEditorComponent()).select(textoescrito.length(), 
