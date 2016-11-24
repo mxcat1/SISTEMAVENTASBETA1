@@ -54,7 +54,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
                         combobuscar.setModel(objproconsu.nombrepro(textoescrito));
                         tablaproupd(textoescrito);
                         if(combobuscar.getItemCount()>0){
-                            combobuscar.setSelectedIndex(0);
+                            combobuscar.setSelectedIndex(1);
                             combobuscar.showPopup();
                             if(evt.getKeyCode()!=8){
                                 ((JTextComponent)combobuscar.getEditor().getEditorComponent()).select(textoescrito.length(), 
