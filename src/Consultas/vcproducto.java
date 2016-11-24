@@ -126,5 +126,57 @@ public class vcproducto {
             return null;
         }
     }
+    public String[] regrosdatospro(String cod,String nompro){
+        objcon.conexion();
+        String[] datospro=new String[6];
+        try{
+            if(cod!=null){
+                prsta=objcon.con.prepareStatement("SELECT COD_PRO,NOM_PRO,PRE_U_PRO,STOCK_PRO,ESTADO,NOM_CAT "+
+                    "FROM PRODUCTOS INNER JOIN CATEGORIA ON (PRODUCTOS.COD_CAT=CATEGORIA.COD_CAT) WHERE COD_PRO=? ");
+                prsta.setString(1, cod);
+            }
+            else if (nompro!=null){
+                prsta=objcon.con.prepareStatement("SELECT COD_PRO,NOM_PRO,PRE_U_PRO,STOCK_PRO,ESTADO,NOM_CAT "+
+                    "FROM PRODUCTOS INNER JOIN CATEGORIA ON (PRODUCTOS.COD_CAT=CATEGORIA.COD_CAT) WHERE NOM_PRO=? ");
+                prsta.setString(1, nompro);
+                
+            }
+            rs=prsta.executeQuery();
+            while(rs.next()){
+                datospro[0]=rs.getString("COD_PRO");
+                datospro[1]=rs.getString("NOM_PRO");
+                datospro[2]=rs.getString("PRE_U_PRO");
+                datospro[3]=rs.getString("STOCK_PRO");
+                datospro[4]=rs.getString("ESTADO");
+                datospro[5]=rs.getString("NOM_CAT");
+            }
+            objcon.cerrarconexion(rs, prsta);
+            return datospro;
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR "+e);
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
+    
+    public DefaultComboBoxModel categoriapro(){
+        objcon.conexion();
+        DefaultComboBoxModel modelocat=new DefaultComboBoxModel();
+        try{
+            prsta=objcon.con.prepareStatement("SELECT NOM_CAT FROM CATEGORIA");
+            rs=prsta.executeQuery();
+            while(rs.next()){
+                modelocat.addElement(rs.getString("NOM_CAT"));
+            }
+            return modelocat;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR "+e);
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
     
 }

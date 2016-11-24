@@ -54,6 +54,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
                         combobuscar.setModel(objproconsu.nombrepro(textoescrito));
                         tablaproupd(textoescrito);
                         if(combobuscar.getItemCount()>0){
+                            combobuscar.setSelectedIndex(0);
                             combobuscar.showPopup();
                             if(evt.getKeyCode()!=8){
                                 ((JTextComponent)combobuscar.getEditor().getEditorComponent()).select(textoescrito.length(), 
@@ -81,12 +82,36 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
 
         });
     }
+    public void regresodatospro(String cod,String nompro){
+        String[] datosprore=objproconsu.regrosdatospro(cod, nompro);
+        ManteProdu.txtCod.setText(datosprore[0]);
+        ManteProdu.txtDescri.setText(datosprore[1]);
+        ManteProdu.txtPU.setText(datosprore[2]);
+        ManteProdu.txtStock.setText(datosprore[3]);
+        if(datosprore[4].equals("A")){
+            ManteProdu.chekEstado.setSelected(true);
+        }
+        else{
+            ManteProdu.chekEstado.setSelected(false);
+            
+        }
+        ManteProdu.cbcategoria.setSelectedItem(datosprore[5]);
+        
+    }
     public void busquedadocd(){
         String cod;
         cod="P"+String.valueOf(jspcodigo.getValue());
         DefaultTableModel tablaprod=objproconsu.mostrarproductoscod(cod);
         tablaproducto.setModel(tablaprod);
+        regresodatospro(cod, null);
         
+    }
+    public void busquedadnom(){
+        String nompro;
+        nompro=String.valueOf(combobuscar.getSelectedItem());
+        DefaultTableModel modelonompro=objproconsu.mostrar_productos(nompro);
+        tablaproducto.setModel(modelonompro);
+        regresodatospro(null, nompro);
     }
 
     /**
@@ -155,6 +180,11 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         jLabel2.setText("ESCRIBA EL NOMBRE O CODIGO A BUSCAR");
 
         combobuscar.setEditable(true);
+        combobuscar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                combobuscarItemStateChanged(evt);
+            }
+        });
 
         jLabel3.setText("Mensaje");
 
@@ -252,6 +282,11 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         busquedadocd();
     }//GEN-LAST:event_jspcodigoStateChanged
+
+    private void combobuscarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_combobuscarItemStateChanged
+        // TODO add your handling code here:
+        busquedadnom();
+    }//GEN-LAST:event_combobuscarItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
