@@ -192,6 +192,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
 
         jLabel4.setText("P ");
 
+        jspcodigo.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         jspcodigo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jspcodigoStateChanged(evt);
