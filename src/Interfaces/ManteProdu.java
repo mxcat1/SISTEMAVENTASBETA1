@@ -329,6 +329,7 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         }
         else{
             desabiitar();
+            btneditar.setEnabled(true);
             
         }
     }//GEN-LAST:event_btnnuevoActionPerformed
@@ -341,6 +342,7 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         }
         else{
             desabiitar();
+            btnnuevo.setEnabled(true);
         }
     }//GEN-LAST:event_btneditarActionPerformed
 
