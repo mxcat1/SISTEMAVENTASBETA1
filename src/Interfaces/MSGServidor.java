@@ -29,6 +29,8 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
     public MSGServidor(String usuario) {
         this.usuario=usuario;
         initComponents();
+        Thread hilos=new Thread(this);
+        hilos.start();
     }
 
     public void mandarmsg(){
