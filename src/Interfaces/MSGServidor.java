@@ -5,19 +5,44 @@
  */
 package Interfaces;
 
+import DATOS.chat_datos;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author MXCATTV12
  */
-public class MSGServidor extends javax.swing.JInternalFrame {
+public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable{
 
     /**
      * Creates new form MSGServidor
      */
-    public MSGServidor() {
+    public String usuario;
+    public chat_datos datosuser=new chat_datos();
+    public String ip;
+    public MSGServidor(String usuario) {
+        this.usuario=usuario;
         initComponents();
     }
 
+    public void mandarmsg(){
+        try {
+            Socket sockenvia=new Socket(ip,9998);
+            ObjectOutputStream data_salida=new ObjectOutputStream(sockenvia.getOutputStream());
+            datosuser.setMsg(txtmsg.getText());
+            datosuser.setNick(usuario);
+            data_salida.writeObject(datosuser);
+            sockenvia.close();
+        } catch (IOException ex) {
+            Logger.getLogger(MSGServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,16 +53,18 @@ public class MSGServidor extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtchatadmin = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtmsg = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        setClosable(true);
+
+        txtchatadmin.setEditable(false);
+        txtchatadmin.setColumns(20);
+        txtchatadmin.setRows(5);
+        jScrollPane1.setViewportView(txtchatadmin);
 
         jButton1.setText("ENVIAR");
 
@@ -63,7 +90,7 @@ public class MSGServidor extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1)
+                            .addComponent(txtmsg)
                             .addComponent(jScrollPane1))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
@@ -81,7 +108,7 @@ public class MSGServidor extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtmsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jButton1)
                 .addContainerGap(13, Short.MAX_VALUE))
@@ -96,7 +123,30 @@ public class MSGServidor extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea txtchatadmin;
+    private javax.swing.JTextField txtmsg;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        try {
+            ServerSocket sockserverrecibe=new ServerSocket(9999);
+            while(true){
+                Socket sockserver=sockserverrecibe.accept();
+                ObjectInputStream datos_recivo=new ObjectInputStream(sockserver.getInputStream());
+                chat_datos datareciv;
+                datareciv=(chat_datos)datos_recivo.readObject();
+                ip=datareciv.getIp();
+                txtchatadmin.append("\n"+datareciv.getNick()+" : "+datareciv.getMsg());
+                sockserver.close();
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MSGServidor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MSGServidor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
 }

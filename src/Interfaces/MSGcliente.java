@@ -5,17 +5,55 @@
  */
 package Interfaces;
 
+import DATOS.chat_datos;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author MXCATTV12
  */
-public class MSGcliente extends javax.swing.JInternalFrame {
+public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
 
     /**
      * Creates new form MSGcliente
      */
-    public MSGcliente() {
+    public String usuario;
+    public chat_datos datos=new chat_datos();
+    public InetAddress mymaquina;
+    public MSGcliente(String usuario) {
+        this.usuario=usuario;
         initComponents();
+        try {
+            mymaquina=InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(MSGcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Thread hilop = new Thread(this);
+        hilop.start();
+    }
+    public void mandarmsg(){
+        try {
+            Socket sockenvio=new Socket("192.168.0.100",9999);
+            ObjectOutputStream datos_salida=new ObjectOutputStream(sockenvio.getOutputStream());
+            datos.setMsg(txtmsg.getText());
+            datos.setNick(usuario);
+            datos.setIp(mymaquina.getHostAddress());
+            datos_salida.writeObject(datos);
+            sockenvio.close();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MSGcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -31,19 +69,26 @@ public class MSGcliente extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
+        txtchatuser = new javax.swing.JTextArea();
+        txtmsg = new javax.swing.JTextField();
+
+        setClosable(true);
 
         jLabel1.setText("-------");
 
         jLabel2.setText("PUEDE ENVIAR UN MENSAJE AL ADMINISTRADOR");
 
         jButton1.setText("ENVIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtchatuser.setEditable(false);
+        txtchatuser.setColumns(20);
+        txtchatuser.setRows(5);
+        jScrollPane1.setViewportView(txtchatuser);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -66,7 +111,7 @@ public class MSGcliente extends javax.swing.JInternalFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
-                            .addComponent(jTextField1))))
+                            .addComponent(txtmsg))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -79,7 +124,7 @@ public class MSGcliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtmsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -88,13 +133,39 @@ public class MSGcliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        mandarmsg();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea txtchatuser;
+    private javax.swing.JTextField txtmsg;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        try {
+            ServerSocket sockrecibe=new ServerSocket(9998);
+            while(true){
+                Socket sockserv=sockrecibe.accept();
+                ObjectInputStream datos_entrada=new ObjectInputStream(sockserv.getInputStream());
+                chat_datos datosentrada;
+                datosentrada=(chat_datos) datos_entrada.readObject();
+                txtchatuser.append("\n"+datosentrada.getNick() +" : "+ datosentrada.msg);    
+                sockserv.close();
+            }
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MSGcliente.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MSGcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

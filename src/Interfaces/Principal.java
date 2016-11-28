@@ -28,10 +28,14 @@ public class Principal extends javax.swing.JFrame {
             menuEmpleado.setEnabled(true);
             menuempleadon.setEnabled(false);
             menuempleadon.setVisible(false);
+            chatuser.setEnabled(false);
+            chatuser.setVisible(false);
         }
         else{
             menuEmpleado.setVisible(false);
             menuEmpleado.setEnabled(false);
+            chatadmin.setEnabled(false);
+            chatadmin.setVisible(false);
         }
     }
 
@@ -51,6 +55,9 @@ public class Principal extends javax.swing.JFrame {
         menuEmpleado = new javax.swing.JMenuItem();
         menuempleadon = new javax.swing.JMenuItem();
         menuitempro = new javax.swing.JMenuItem();
+        Menuchat = new javax.swing.JMenu();
+        chatadmin = new javax.swing.JMenuItem();
+        chatuser = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -103,6 +110,26 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        Menuchat.setText("Servicios");
+
+        chatadmin.setText("CHAT ADMIN");
+        chatadmin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatadminActionPerformed(evt);
+            }
+        });
+        Menuchat.add(chatadmin);
+
+        chatuser.setText("CHAT USER");
+        chatuser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chatuserActionPerformed(evt);
+            }
+        });
+        Menuchat.add(chatuser);
+
+        jMenuBar1.add(Menuchat);
+
         menuSalir.setText("Salir");
         jMenuBar1.add(menuSalir);
 
@@ -154,6 +181,20 @@ public class Principal extends javax.swing.JFrame {
         objmantepro.setVisible(true);
     }//GEN-LAST:event_menuitemproActionPerformed
 
+    private void chatadminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatadminActionPerformed
+        // TODO add your handling code here:
+        MSGServidor frmchatadmin=new MSGServidor(usuario);
+        dkprincipal.add(frmchatadmin);
+        frmchatadmin.setVisible(true);
+    }//GEN-LAST:event_chatadminActionPerformed
+
+    private void chatuserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatuserActionPerformed
+        // TODO add your handling code here:
+        MSGcliente frmchatuser=new MSGcliente(usuario);
+        dkprincipal.add(frmchatuser);
+        frmchatuser.setVisible(true);
+    }//GEN-LAST:event_chatuserActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -191,6 +232,9 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Menuchat;
+    private javax.swing.JMenuItem chatadmin;
+    private javax.swing.JMenuItem chatuser;
     public static javax.swing.JDesktopPane dkprincipal;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
