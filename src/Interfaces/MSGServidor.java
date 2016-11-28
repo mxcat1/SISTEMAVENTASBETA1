@@ -13,6 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +45,8 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
         } catch (IOException ex) {
             Logger.getLogger(MSGServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        txtchatadmin.append("\n"+usuario+" : "+txtmsg.getText());
+        txtmsg.setText("");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -69,6 +72,17 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
         jScrollPane1.setViewportView(txtchatadmin);
 
         jButton1.setText("ENVIAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        txtmsg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtmsgActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("CHAT ADMINISTRADOR");
 
@@ -118,6 +132,16 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        mandarmsg();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtmsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmsgActionPerformed
+        // TODO add your handling code here:
+        mandarmsg();
+    }//GEN-LAST:event_txtmsgActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

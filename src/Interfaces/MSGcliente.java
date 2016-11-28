@@ -53,6 +53,8 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
         } catch (IOException ex) {
             Logger.getLogger(MSGcliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        txtchatuser.append("\n"+usuario+" : "+txtmsg.getText());
+        txtmsg.setText("");
         
     }
 
@@ -89,6 +91,12 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
         txtchatuser.setColumns(20);
         txtchatuser.setRows(5);
         jScrollPane1.setViewportView(txtchatuser);
+
+        txtmsg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtmsgActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,6 +145,11 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
         // TODO add your handling code here:
         mandarmsg();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtmsgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtmsgActionPerformed
+        // TODO add your handling code here:
+        mandarmsg();
+    }//GEN-LAST:event_txtmsgActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
