@@ -32,6 +32,7 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
     public MSGcliente(String usuario) {
         this.usuario=usuario;
         initComponents();
+        lbluser.setText(this.usuario);
         try {
             mymaquina=InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {
@@ -67,7 +68,7 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lbluser = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -76,7 +77,7 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
 
         setClosable(true);
 
-        jLabel1.setText("-------");
+        lbluser.setText("-------");
 
         jLabel2.setText("PUEDE ENVIAR UN MENSAJE AL ADMINISTRADOR");
 
@@ -109,7 +110,7 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbluser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(93, 93, 93)
@@ -128,7 +129,7 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addGap(12, 12, 12)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbluser, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -154,9 +155,9 @@ public class MSGcliente extends javax.swing.JInternalFrame implements Runnable{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbluser;
     private javax.swing.JTextArea txtchatuser;
     private javax.swing.JTextField txtmsg;
     // End of variables declaration//GEN-END:variables

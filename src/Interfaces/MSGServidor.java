@@ -30,6 +30,7 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
     public MSGServidor(String usuario) {
         this.usuario=usuario;
         initComponents();
+        lbluser.setText(this.usuario);
         Thread hilos=new Thread(this);
         hilos.start();
     }
@@ -62,7 +63,7 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
         jButton1 = new javax.swing.JButton();
         txtmsg = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbluser = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -86,7 +87,7 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
 
         jLabel1.setText("CHAT ADMINISTRADOR");
 
-        jLabel2.setText("-------");
+        lbluser.setText("-------");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -101,7 +102,7 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
                                 .addComponent(jButton1))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(lbluser, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -120,7 +121,7 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(lbluser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -147,8 +148,8 @@ public class MSGServidor extends javax.swing.JInternalFrame  implements Runnable
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbluser;
     private javax.swing.JTextArea txtchatadmin;
     private javax.swing.JTextField txtmsg;
     // End of variables declaration//GEN-END:variables
