@@ -47,6 +47,27 @@ public class login extends javax.swing.JFrame {
         ImageIcon newicon=new ImageIcon(newimg);
         lblfotouser.setIcon(newicon);
     }
+    public void verificardatos(){
+        
+        if(objdatos.validauser(String.valueOf(cbusers.getSelectedItem()), txtpass.getText())){
+            JOptionPane.showMessageDialog(null,"usuario y contrase correctos");
+            this.dispose();
+            String usuario=String.valueOf(cbusers.getSelectedItem());
+            Principal objfrm1=new Principal(usuario);
+            objfrm1.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"usuario y contrase incorrectos");
+            contar++;
+            if(contar>3){
+                JOptionPane.showMessageDialog(null, "Se Acabaron tus intentos ADIOS");
+                txtpass.setText(null);
+                cbusers.requestFocus();
+                System.exit(0);
+            }
+        }
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -84,6 +105,12 @@ public class login extends javax.swing.JFrame {
         jLabel1.setText("USUARIO");
 
         jLabel2.setText("CONTRASEÑA");
+
+        txtpass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpassActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -195,6 +222,11 @@ public class login extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_cbusersItemStateChanged
+
+    private void txtpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpassActionPerformed
+        // TODO add your handling code here:
+        verificardatos();
+    }//GEN-LAST:event_txtpassActionPerformed
 
     /**
      * @param args the command line arguments
