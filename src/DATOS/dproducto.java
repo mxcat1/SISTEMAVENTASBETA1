@@ -15,11 +15,11 @@ public class dproducto {
     private double preupro;
     private int stock;
     private String estado;
-    private int codcategoria;
+    private String codcategoria;
     
     public dproducto(){
     }
-    public dproducto(String codpro,String nompro,double preupro,int stock,String estado,int codcategoria){
+    public dproducto(String codpro,String nompro,double preupro,int stock,String estado,String codcategoria){
         this.codpro=codpro;
         this.nompro=nompro;
         this.preupro=preupro;
@@ -58,10 +58,10 @@ public class dproducto {
     public void setEstado(String estado){
         this.estado=estado;
     }
-    public int getCodcategoria(){
+    public String getCodcategoria(){
         return codcategoria;
     }
-    public void setCodcategoria(int codcategoria){
+    public void setCodcategoria(String codcategoria){
         this.codcategoria=codcategoria;
     }
 }

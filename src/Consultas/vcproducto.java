@@ -178,5 +178,82 @@ public class vcproducto {
             return null;
         }
     }
+    public String paracodigonuevo(){
+        objcon.conexion();
+        String cod;
+        try{
+            prsta=objcon.con.prepareStatement("SELECT TOP 1 CAST(SUBSTRING(COD_PRO,2,10)AS INT)+1 AS NUMERO FROM PRODUCTOS ORDER BY CAST(SUBSTRING(COD_PRO,2,10) AS INT) DESC");
+            rs=prsta.executeQuery();
+            rs.next();
+            cod=String.valueOf(rs.getInt("NUMERO"));
+            objcon.cerrarconexion(rs, prsta);
+            return cod;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
+    
+    public boolean nuevopro(dproducto dts){
+        objcon.conexion();
+        try{
+            prsta=objcon.con.prepareStatement("INSERT INTO PRODUCTOS VALUES(?,?,?,?,?,?)");
+            prsta.setString(1, dts.getCodpro());
+            prsta.setString(2, dts.getNompro());
+            prsta.setDouble(3, dts.getPreupro());
+            prsta.setInt(4, dts.getStock());
+            prsta.setString(5, dts.getEstado());
+            prsta.setString(6, dts.getCodcategoria());
+            int n=prsta.executeUpdate();
+            if(n!=0){
+                objcon.cerrarconexion(rs, prsta);
+                return true;
+            }
+            else{
+                objcon.cerrarconexion(rs, prsta);
+                return false;
+            }
+            
+            
+        }
+        catch(Exception e){
+            
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            objcon.cerrarconexion(rs, prsta);
+            return false;
+        }
+        
+    }
+    public boolean actualizarpro(dproducto dts){
+        objcon.conexion();
+        try{
+            prsta=objcon.con.prepareStatement("UPDATE PRODUCTOS SET NOM_PRO=?,PRE_U_PRO=?,STOCK_PRO=?"+
+                    ",ESTADO=?,COD_CAT=? WHERE COD_PRO=?");
+            prsta.setString(1, dts.getNompro());
+            prsta.setDouble(2, dts.getPreupro());
+            prsta.setInt(3, dts.getStock());
+            prsta.setString(4, dts.getEstado());
+            prsta.setString(5, dts.getCodcategoria());
+            prsta.setString(6, dts.getCodpro());
+            
+            int n=prsta.executeUpdate();
+            
+            if(n!=0){
+                objcon.cerrarconexion(rs, prsta);
+                return true;
+            }
+            else{
+                objcon.cerrarconexion(rs, prsta);
+                return false;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.getMessage());
+            objcon.cerrarconexion(rs, prsta);
+            return false;
+        }
+    }
     
 }

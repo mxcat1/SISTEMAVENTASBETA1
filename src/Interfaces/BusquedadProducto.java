@@ -88,8 +88,9 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         String[] datosprore=objproconsu.regrosdatospro(cod, nompro);
         ManteProdu.txtCod.setText(datosprore[0]);
         ManteProdu.txtDescri.setText(datosprore[1]);
-        ManteProdu.txtPU.setText(datosprore[2]);
-        ManteProdu.txtStock.setText(datosprore[3]);
+        ManteProdu.txtPU.setValue(Double.valueOf(datosprore[2]));
+        ManteProdu.txtStock.setValue(Integer.valueOf(datosprore[3]));
+        ManteProdu.txtprobuscar.setText(datosprore[1]);
         if(datosprore[4].equals("A")){
             ManteProdu.chekEstado.setSelected(true);
         }
@@ -132,7 +133,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
         rbporcod = new javax.swing.JRadioButton();
         rbpornom = new javax.swing.JRadioButton();
         jLabel2 = new javax.swing.JLabel();
-        combobuscar = new javax.swing.JComboBox<String>();
+        combobuscar = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jspcodigo = new javax.swing.JSpinner();
@@ -192,7 +193,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
 
         jLabel4.setText("P ");
 
-        jspcodigo.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        jspcodigo.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         jspcodigo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 jspcodigoStateChanged(evt);
@@ -297,7 +298,7 @@ public class BusquedadProducto extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btngrupeleccion;
-    private javax.swing.JComboBox<String> combobuscar;
+    public static javax.swing.JComboBox<String> combobuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

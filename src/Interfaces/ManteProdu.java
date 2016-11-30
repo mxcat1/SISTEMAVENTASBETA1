@@ -8,6 +8,7 @@ package Interfaces;
 import Consultas.vcproducto;
 import DATOS.dproducto;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -42,7 +43,85 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         chekEstado.setEnabled(false);
         cbcategoria.setEnabled(false);
     }
-
+    public void nuevoproducto(){
+        txtCod.setText("P"+objproconsu.paracodigonuevo());
+        txtDescri.setText("");
+        txtStock.setValue(1);
+        txtPU.setValue(1);
+        cbcategoria.setSelectedIndex(0);
+        chekEstado.setSelected(false);
+        
+        
+    }
+    public void datospros(String cod,String nompro){
+        String[] datospro=objproconsu.regrosdatospro(cod,nompro);
+        txtCod.setText(datospro[0]);
+        txtDescri.setText(datospro[1]);
+        txtPU.setValue(Double.valueOf(datospro[2]));
+        txtStock.setValue(Integer.valueOf(datospro[3]));
+        if(datospro[4].equals("A")){
+            chekEstado.setSelected(true);
+        }
+        else if(datospro[4].equals("I")){
+            chekEstado.setSelected(false);
+        }
+        else{
+            chekEstado.setSelected(false);
+        }
+        cbcategoria.setSelectedItem(datospro[5]);
+        
+    }
+    public void verificacionynuevopro(){
+        prodatossave();
+        if(txtDescri.getText().length()>0){
+            if(btnnuevo.isSelected()){
+                if(objproconsu.nuevopro(objpro)){
+                    JOptionPane.showMessageDialog(null, "PRODUCTO NUEVO AGREGADO CON EXITO");
+                    desabiitar();
+                    btneditar.setEnabled(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "No se ha podido agregar un nuevo producto");
+                }
+            }
+            else if(btneditar.isSelected()){
+                if(objproconsu.actualizarpro(objpro)){
+                    JOptionPane.showMessageDialog(null, "DATOS DEL PRODUCTO ACTUALIZADOS");
+                    desabiitar();
+                    btnnuevo.setEnabled(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "LOS DATOS NO SE HAN PODIDO ACTUALIZAR");
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "FALTA AÑADIR UNA DESCRIPCION AL PRODUCTO");
+        }
+    }
+    public void prodatossave(){
+        objpro.setCodpro(txtCod.getText());
+        objpro.setNompro(txtDescri.getText());
+        objpro.setPreupro((double)txtPU.getValue());
+        objpro.setStock((int)txtStock.getValue());
+        if(chekEstado.isSelected()){
+            objpro.setEstado("A");
+        }
+        else{
+            objpro.setEstado("I");
+        }
+        switch(cbcategoria.getSelectedIndex()){
+            case 0:
+                objpro.setCodcategoria("CA001");
+                break;
+            case 1:
+                objpro.setCodcategoria("CA002");
+                break;
+            case 2:
+                objpro.setCodcategoria("CA003");
+                break;
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,9 +137,7 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         txtDescri = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtPU = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtStock = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         chekEstado = new javax.swing.JCheckBox();
@@ -73,6 +150,8 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         butBuscar = new javax.swing.JButton();
         txtprobuscar = new javax.swing.JTextField();
+        txtStock = new javax.swing.JSpinner();
+        txtPU = new javax.swing.JSpinner();
 
         jLabel1.setFont(new java.awt.Font("Agency FB", 0, 36)); // NOI18N
         jLabel1.setText("Mantenimiento Producto");
@@ -100,22 +179,8 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         jLabel4.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         jLabel4.setText("Precio Unitario:");
 
-        txtPU.setEnabled(false);
-        txtPU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtPUActionPerformed(evt);
-            }
-        });
-
         jLabel5.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         jLabel5.setText("Stock:");
-
-        txtStock.setEnabled(false);
-        txtStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStockActionPerformed(evt);
-            }
-        });
 
         jLabel6.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         jLabel6.setText("Estado:");
@@ -130,6 +195,11 @@ public class ManteProdu extends javax.swing.JInternalFrame {
 
         butGuardar.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         butGuardar.setText("Guardar");
+        butGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butGuardarActionPerformed(evt);
+            }
+        });
 
         bustSalir.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         bustSalir.setText("Salir");
@@ -214,6 +284,12 @@ public class ManteProdu extends javax.swing.JInternalFrame {
                     .addComponent(txtprobuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        txtStock.setModel(new javax.swing.SpinnerNumberModel(1, null, null, 1));
+        txtStock.setEnabled(false);
+
+        txtPU.setModel(new javax.swing.SpinnerNumberModel(1.0d, null, null, 1.0d));
+        txtPU.setEnabled(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,16 +307,16 @@ public class ManteProdu extends javax.swing.JInternalFrame {
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtStock, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(chekEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
-                                .addComponent(txtPU, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(txtDescri)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 226, Short.MAX_VALUE)))
-                            .addComponent(cbcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(txtStock, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(chekEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
+                            .addComponent(txtPU, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jLabel1))
@@ -271,8 +347,8 @@ public class ManteProdu extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(txtPU, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -285,7 +361,7 @@ public class ManteProdu extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(cbcategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -300,14 +376,6 @@ public class ManteProdu extends javax.swing.JInternalFrame {
     private void txtDescriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescriActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescriActionPerformed
-
-    private void txtPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPUActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPUActionPerformed
-
-    private void txtStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStockActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStockActionPerformed
 
     private void bustSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bustSalirActionPerformed
         // TODO add your handling code here:
@@ -326,10 +394,12 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         if(btnnuevo.isSelected()){
             btneditar.setEnabled(false);
             habilitar();
+            nuevoproducto();
         }
         else{
             desabiitar();
             btneditar.setEnabled(true);
+            datospros(null, txtprobuscar.getText());
             
         }
     }//GEN-LAST:event_btnnuevoActionPerformed
@@ -343,8 +413,14 @@ public class ManteProdu extends javax.swing.JInternalFrame {
         else{
             desabiitar();
             btnnuevo.setEnabled(true);
+            datospros(null, txtprobuscar.getText());
         }
     }//GEN-LAST:event_btneditarActionPerformed
+
+    private void butGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarActionPerformed
+        // TODO add your handling code here:
+        verificacionynuevopro();
+    }//GEN-LAST:event_butGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -366,8 +442,8 @@ public class ManteProdu extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     public static javax.swing.JTextField txtCod;
     public static javax.swing.JTextField txtDescri;
-    public static javax.swing.JTextField txtPU;
-    public static javax.swing.JTextField txtStock;
+    public static javax.swing.JSpinner txtPU;
+    public static javax.swing.JSpinner txtStock;
     public static javax.swing.JTextField txtprobuscar;
     // End of variables declaration//GEN-END:variables
 }
