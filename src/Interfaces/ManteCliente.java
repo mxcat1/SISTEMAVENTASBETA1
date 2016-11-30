@@ -429,8 +429,9 @@ public class ManteCliente extends javax.swing.JInternalFrame {
 
     private void bustSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bustSalirActionPerformed
         // TODO add your handling code here:
-
+        Principal.menuCliente.setEnabled(true);
         this.dispose();
+        
     }//GEN-LAST:event_bustSalirActionPerformed
 
     private void txtrucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtrucActionPerformed

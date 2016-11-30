@@ -612,7 +612,7 @@ public class ManteEmpleadon extends javax.swing.JInternalFrame {
 
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
         // TODO add your handling code here:
-
+        Principal.menuempleadon.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_btnsalirActionPerformed
 

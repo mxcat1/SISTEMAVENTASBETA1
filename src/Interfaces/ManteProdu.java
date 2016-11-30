@@ -379,11 +379,13 @@ public class ManteProdu extends javax.swing.JInternalFrame {
 
     private void bustSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bustSalirActionPerformed
         // TODO add your handling code here:
+        Principal.menuitempro.setEnabled(true);
         this.dispose();
     }//GEN-LAST:event_bustSalirActionPerformed
 
     private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
         // TODO add your handling code here:
+        
         BusquedadProducto frmbuscarpro=new BusquedadProducto();
         Principal.dkprincipal.add(frmbuscarpro);
         frmbuscarpro.setVisible(true);

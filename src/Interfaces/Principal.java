@@ -156,6 +156,9 @@ public class Principal extends javax.swing.JFrame {
         ManteCliente objmtcliente=new ManteCliente();
         dkprincipal.add(objmtcliente);
         objmtcliente.setVisible(true);
+        if(objmtcliente.isVisible()){
+            menuCliente.setEnabled(false);
+        }
         
     }//GEN-LAST:event_menuClienteActionPerformed
 
@@ -164,6 +167,9 @@ public class Principal extends javax.swing.JFrame {
         ManteEmpleado objmtempleado=new ManteEmpleado();
         dkprincipal.add(objmtempleado);
         objmtempleado.setVisible(true);
+        if(objmtempleado.isVisible()){
+            menuEmpleado.setEnabled(false);
+        }
     }//GEN-LAST:event_menuEmpleadoActionPerformed
 
     private void menuempleadonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuempleadonActionPerformed
@@ -171,6 +177,9 @@ public class Principal extends javax.swing.JFrame {
         ManteEmpleadon objempleadon=new ManteEmpleadon(usuario);
         dkprincipal.add(objempleadon);
         objempleadon.setVisible(true);
+        if (objempleadon.isVisible()){
+            menuempleadon.setEnabled(false);
+        }
 
     }//GEN-LAST:event_menuempleadonActionPerformed
 
@@ -179,6 +188,9 @@ public class Principal extends javax.swing.JFrame {
         ManteProdu objmantepro= new ManteProdu();
         dkprincipal.add(objmantepro);
         objmantepro.setVisible(true);
+        if (objmantepro.isVisible()){
+            menuitempro.setEnabled(false);
+        }
     }//GEN-LAST:event_menuitemproActionPerformed
 
     private void chatadminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chatadminActionPerformed
@@ -238,10 +250,10 @@ public class Principal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane dkprincipal;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    public javax.swing.JMenuItem menuCliente;
-    public javax.swing.JMenuItem menuEmpleado;
+    public static javax.swing.JMenuItem menuCliente;
+    public static javax.swing.JMenuItem menuEmpleado;
     private javax.swing.JMenu menuSalir;
-    private javax.swing.JMenuItem menuempleadon;
-    private javax.swing.JMenuItem menuitempro;
+    public static javax.swing.JMenuItem menuempleadon;
+    public static javax.swing.JMenuItem menuitempro;
     // End of variables declaration//GEN-END:variables
 }
