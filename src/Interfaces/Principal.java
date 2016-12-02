@@ -55,6 +55,7 @@ public class Principal extends javax.swing.JFrame {
         menuEmpleado = new javax.swing.JMenuItem();
         menuempleadon = new javax.swing.JMenuItem();
         menuitempro = new javax.swing.JMenuItem();
+        menuitemventa = new javax.swing.JMenuItem();
         Menuchat = new javax.swing.JMenu();
         chatadmin = new javax.swing.JMenuItem();
         chatuser = new javax.swing.JMenuItem();
@@ -107,6 +108,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(menuitempro);
+
+        menuitemventa.setText("Proceso Venta");
+        menuitemventa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuitemventaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuitemventa);
 
         jMenuBar1.add(jMenu1);
 
@@ -207,6 +216,15 @@ public class Principal extends javax.swing.JFrame {
         frmchatuser.setVisible(true);
     }//GEN-LAST:event_chatuserActionPerformed
 
+    private void menuitemventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuitemventaActionPerformed
+        // TODO add your handling code here:
+        PocesoVenta frmventa=new PocesoVenta(usuario);
+        frmventa.setVisible(true);
+        if(frmventa.isVisible()){
+            menuitemventa.setEnabled(false);
+        }
+    }//GEN-LAST:event_menuitemventaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -255,5 +273,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu menuSalir;
     public static javax.swing.JMenuItem menuempleadon;
     public static javax.swing.JMenuItem menuitempro;
+    public static javax.swing.JMenuItem menuitemventa;
     // End of variables declaration//GEN-END:variables
 }

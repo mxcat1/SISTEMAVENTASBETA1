@@ -256,4 +256,66 @@ public class vcproducto {
         }
     }
     
+    public DefaultComboBoxModel nombrepro_preu(){
+        objcon.conexion();
+        DefaultComboBoxModel modelopro=new DefaultComboBoxModel();
+        try{
+            prsta=objcon.con.prepareStatement("SELECT NOM_PRO,PRE_U_PRO,STOCK_PRO FROM PRODUCTOS WHERE ESTADO= 'A' ORDER BY CAST(SUBSTRING(COD_PRO,2,10)AS INT)");
+            rs=prsta.executeQuery();
+            while(rs.next()){
+                modelopro.addElement(rs.getString("NOM_PRO")+" ->S/. "+ rs.getString("PRE_U_PRO")+" ->#N "+rs.getString("STOCK_PRO"));
+            }
+            objcon.cerrarconexion(rs, prsta);
+            return modelopro;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR"+ e);
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
+    public String[] regrosdatospro1(String cod_pro){
+        objcon.conexion();
+        String[] datospro=new String[4];
+        try{
+            prsta=objcon.con.prepareStatement("SELECT COD_PRO,NOM_PRO,PRE_U_PRO FROM PRODUCTOS WHERE COD_PRO=?");
+            prsta.setString(1, cod_pro);
+            
+            rs=prsta.executeQuery();
+            while(rs.next()){
+                datospro[0]=rs.getString("COD_PRO");
+                datospro[1]=rs.getString("NOM_PRO");
+                datospro[2]=rs.getString("PRE_U_PRO");
+            }
+            objcon.cerrarconexion(rs, prsta);
+            return datospro;
+
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR "+e);
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
+    public String[] codproducto(){
+        objcon.conexion();
+        String[] cod_pro=new String[99999999];
+        int n=0;
+        try{
+            prsta=objcon.con.prepareStatement("SELECT COD_PRO FROM PRODUCTOS ORDER BY CAST(SUBSTRING(COD_PRO,2,10)AS INT )");
+            rs=prsta.executeQuery();
+            while(rs.next()){
+                cod_pro[n]=rs.getString("COD_PRO");
+                n++;
+            }
+            objcon.cerrarconexion(rs, prsta);
+            return cod_pro;
+            
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prsta);
+            return null;
+        }
+    }
 }

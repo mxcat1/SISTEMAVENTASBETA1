@@ -253,4 +253,33 @@ public class vccliente {
             return tablaclientes;
         }
     }
+    public String[] buscar_cli_nom(String cod){
+        objcone.conexion();
+        String[] registrocli =new String[9];
+        int n=0;
+        
+        try{
+            prsta=objcone.con.prepareStatement("SELECT * FROM CLIENTES INNER JOIN DISTRITOS ON (CLIENTES.COD_DIST=DISTRITOS.COD_DIST) WHERE COD_CLI=?");
+            prsta.setString(1, cod);
+            rstex=prsta.executeQuery();
+            if(rstex.next()){
+                registrocli[0]=rstex.getString("COD_CLI");
+                registrocli[1]=rstex.getString("NOM_CLI");
+                registrocli[2]=rstex.getString("APE_CLI");
+                registrocli[3]=rstex.getString("FONO_CLI");
+                registrocli[4]=rstex.getString("DNI_CLI");
+                registrocli[5]=rstex.getString("RUC_CLI");
+                registrocli[6]=rstex.getString("SEXO_CLI");
+                registrocli[7]=rstex.getString("NOM_DIST");
+                registrocli[8]=rstex.getString("DIRE_CLI");
+            }
+            objcone.cerrarconexion(rstex, prsta);
+            return registrocli;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "ERROR "+e);
+            objcone.cerrarconexion(rstex, prsta);
+            return registrocli;
+        }
+    }
 }

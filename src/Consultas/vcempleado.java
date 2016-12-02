@@ -252,5 +252,23 @@ public class vcempleado {
             return null;
         }
     }
+    public String codigoempuser(String user){
+        objcone.conexion();
+        String cod_emp;
+        try{
+            prts=objcone.con.prepareStatement("SELECT COD_EMP FROM EMPLEADOS WHERE USUARIO=?");
+            prts.setString(1, user);
+            rs=prts.executeQuery();
+            rs.next();
+            cod_emp=rs.getString("COD_EMP");
+            objcone.cerrarconexion(rs, prts);
+            return cod_emp;
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcone.cerrarconexion(rs, prts);
+            return null;
+        }
+    }
     
 }
