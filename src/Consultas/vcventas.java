@@ -45,12 +45,12 @@ public class vcventas {
         objcon.conexion();
         try{
             prst=objcon.con.prepareStatement("INSERT INTO VENTA_CABECERA VALUES(?,?,?,?,?,?)");
-            prst.setString(1, dts.cod_cabe);
-            prst.setString(2, dts.cod_cli);
-            prst.setString(3, dts.nombre);
-            prst.setString(4, dts.fecha);
-            prst.setDouble(5, dts.total);
-            prst.setString(6, dts.cod_emp);
+            prst.setString(1, dts.getCod_cabe());
+            prst.setString(2, dts.getCod_cli());
+            prst.setString(3, dts.getNombre());
+            prst.setString(4, dts.getFecha());
+            prst.setDouble(5, dts.getTotal());
+            prst.setString(6, dts.getCod_emp());
             int n=prst.executeUpdate();
             if(n!=0){
                 objcon.cerrarconexion(rs, prst);
@@ -73,10 +73,10 @@ public class vcventas {
         objcon.conexion();
         try{
             prst=objcon.con.prepareStatement("INSERT INTO VENTA_DETALLE VALUES(?,?,?,?)");
-            prst.setString(1, dts.cod_cabe);
-            prst.setString(2, dts.cod_pro);
-            prst.setInt(3, dts.canti);
-            prst.setDouble(4, dts.parcial);
+            prst.setString(1, dts.getCod_cabe());
+            prst.setString(2, dts.getCod_pro());
+            prst.setInt(3, dts.getCanti());
+            prst.setDouble(4, dts.getParcial());
             
             int n=prst.executeUpdate();
             if(n!=0){
@@ -96,6 +96,67 @@ public class vcventas {
         }
     }
     
+    public void actualizatotal(dventas dts){
+        objcon.conexion();
+        try{
+            prst=objcon.con.prepareStatement("UPDATE VENTA_CABECERA SET TOTAL=? WHERE COD_CABE=?");
+            prst.setDouble(1, dts.getTotal());
+            prst.setString(2, dts.getCod_cabe());
+            
+            int n=prst.executeUpdate();
+            objcon.cerrarconexion(rs, prst);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prst);
+            
+            
+        }
+    }
+    public void eliminarpro(String cod_pro){
+        objcon.conexion();
+        try{
+            prst=objcon.con.prepareStatement("DELETE FROM VENTA_DETALLE WHERE COD_PRO=?");
+            prst.setString(1, cod_pro);
+            int n=prst.executeUpdate();
+            objcon.cerrarconexion(rs, prst);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prst);
+        }
+    }
+    public void actualizatotal1(double total,String codcabe){
+        objcon.conexion();
+        try{
+            prst=objcon.con.prepareStatement("UPDATE VENTA_CABECERA SET TOTAL=? WHERE COD_CABE=?");
+            prst.setDouble(1, total);
+            prst.setString(2, codcabe);
+            
+            int n=prst.executeUpdate();
+            objcon.cerrarconexion(rs, prst);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prst);
+            
+            
+        }
+    }
     
+    public void eliminarcompra(String cod_cabe){
+        objcon.conexion();
+        try{
+            prst=objcon.con.prepareStatement("DELETE FROM VENTA_CABECERA WHERE COD_CABE=?");
+            prst.setString(1, cod_cabe);
+            int n=prst.executeUpdate();
+            objcon.cerrarconexion(rs, prst);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prst);
+        }
+    }
+
     
 }

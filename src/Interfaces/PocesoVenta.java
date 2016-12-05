@@ -37,9 +37,10 @@ public class PocesoVenta extends javax.swing.JFrame {
     public String codcli[]=objcli.listacod_cli();
     public String[] codpro=objpro.codproducto();
     String codeemps;
-    public int n,cantidad;
+    public int n,cantidad,filadelatabla;
     public double total,preparcial;
     DefaultTableModel tablapro;
+    public String cod_venta,cod_pro,proaleminar;
         
     String[] titulos ={"COD PRODUC","DESCRIPCION","PRECIO","CANTIDAD","TOTAL PARCIAL"};
     
@@ -114,10 +115,13 @@ public class PocesoVenta extends javax.swing.JFrame {
                 if(c<10 && c>0){
                     codventa=f+ceros[c]+objventas.nueva_venta(f);
                     lblcodcompro.setText(codventa);
+                    cod_venta=f+objventas.nueva_venta(f);
                 }
                 rbfactura.setEnabled(false);
                 rbboleta.setEnabled(false);
                 btnnuevo.setEnabled(false);
+                butAgregar.setEnabled(true);
+                butEliminar.setEnabled(true);
             }
             else if(rbboleta.isSelected()){
                 String b="B",codventa="";
@@ -125,11 +129,14 @@ public class PocesoVenta extends javax.swing.JFrame {
                 if(c<10 && c>0){
                     codventa=b+ceros[c]+objventas.nueva_venta(b);
                     lblcodcompro.setText(codventa);
+                    cod_venta=b+objventas.nueva_venta(b);
                     
                 }
                 rbfactura.setEnabled(false);
                 rbboleta.setEnabled(false);
                 btnnuevo.setEnabled(false);
+                butAgregar.setEnabled(true);
+                butEliminar.setEnabled(true);
             }
             else{
                 JOptionPane.showMessageDialog(null,"SELECIONA ENTRE BOLE O FACTUARA PARA CONTINUAR LA COMPRA" );
@@ -140,6 +147,8 @@ public class PocesoVenta extends javax.swing.JFrame {
         else{
             lblcodcompro.setText("");
             btnnuevo.setSelected(false);
+            butAgregar.setEnabled(false);
+            butEliminar.setEnabled(false);
         }
     }
 
@@ -173,12 +182,37 @@ public class PocesoVenta extends javax.swing.JFrame {
         datosproducto[2]=productosbase[2];
         datosproducto[3]=String.valueOf(cantidad);
         datosproducto[4]=String.valueOf(preparcial);
-        
+        cod_pro=datosproducto[0];
 
         tablapro.addRow(datosproducto);
+        lbltotal.setText(String.valueOf(total));
+        
     }
     public void datoscabe(){
+       objdataventa.setCod_cabe(cod_venta);
+       objdataventa.setCod_cli(txtcod.getText());
+       objdataventa.setNombre(txtnombre.getText());
+       objdataventa.setFecha(lblfecha.getText());
+       objdataventa.setTotal(total);
+       objdataventa.setCod_emp(lblempleado.getText());
        
+    }
+    public void datosdetalle(){
+        objdataventa.setCod_cabe(cod_venta);
+        objdataventa.setCod_pro(cod_pro);
+        objdataventa.setCanti(cantidad);
+        objdataventa.setParcial(preparcial);
+    }
+    
+    public void limpiar(){
+        txtApellido.setText(null);
+        txtDNI.setText(null);
+        txtFono.setText(null);
+        txtDirec.setText(null);
+        txtcod.setText(null);
+        txtnombre.setText(null);
+        txtdistrito.setText(null);
+        
     }
     
     /**
@@ -199,13 +233,14 @@ public class PocesoVenta extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        butBuscar = new javax.swing.JButton();
         comboBuscar = new javax.swing.JComboBox<>();
+        txtbuscarcli = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
-        butGuardar = new javax.swing.JButton();
+        btncancelarcompra = new javax.swing.JButton();
         butEliminar = new javax.swing.JButton();
         bustSalir = new javax.swing.JButton();
         btnnuevo = new javax.swing.JToggleButton();
+        btnempezar = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaproductos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
@@ -241,6 +276,8 @@ public class PocesoVenta extends javax.swing.JFrame {
         txtdistrito = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         lblcodcompro = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        lbltotal = new javax.swing.JLabel();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -279,15 +316,19 @@ public class PocesoVenta extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Narrow", 0, 14))); // NOI18N
         jPanel2.setToolTipText("");
 
-        butBuscar.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
-        butBuscar.setText("Buscar");
-        butBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butBuscarActionPerformed(evt);
+        comboBuscar.setEnabled(false);
+        comboBuscar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBuscarItemStateChanged(evt);
             }
         });
 
-        comboBuscar.setEditable(true);
+        txtbuscarcli.setText("Buscar");
+        txtbuscarcli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtbuscarcliActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -296,29 +337,30 @@ public class PocesoVenta extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(comboBuscar, 0, 160, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
-                .addComponent(butBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtbuscarcli)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 3, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(butBuscar)
-                    .addComponent(comboBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(comboBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtbuscarcli)))
         );
 
-        butGuardar.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
-        butGuardar.setText("CANCELAR ");
-        butGuardar.addActionListener(new java.awt.event.ActionListener() {
+        btncancelarcompra.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
+        btncancelarcompra.setText("CANCELAR ");
+        btncancelarcompra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                butGuardarActionPerformed(evt);
+                btncancelarcompraActionPerformed(evt);
             }
         });
 
         butEliminar.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         butEliminar.setText("Quitar Producto");
+        butEliminar.setEnabled(false);
         butEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butEliminarActionPerformed(evt);
@@ -340,6 +382,13 @@ public class PocesoVenta extends javax.swing.JFrame {
             }
         });
 
+        btnempezar.setText("COMENZAR VENTA");
+        btnempezar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnempezarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -348,13 +397,14 @@ public class PocesoVenta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 11, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(butGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btncancelarcompra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(butEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(bustSalir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(btnnuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 11, Short.MAX_VALUE))
+                    .addComponent(btnnuevo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnempezar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -362,8 +412,10 @@ public class PocesoVenta extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnnuevo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                .addComponent(butGuardar)
+                .addGap(18, 18, 18)
+                .addComponent(btnempezar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addComponent(btncancelarcompra)
                 .addGap(90, 90, 90)
                 .addComponent(butEliminar)
                 .addGap(92, 92, 92)
@@ -392,6 +444,11 @@ public class PocesoVenta extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaproductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaproductosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaproductos);
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Buscar Producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Arial Narrow", 0, 14))); // NOI18N
@@ -399,6 +456,7 @@ public class PocesoVenta extends javax.swing.JFrame {
 
         butAgregar.setFont(new java.awt.Font("Arial Narrow", 0, 14)); // NOI18N
         butAgregar.setText("Agregar");
+        butAgregar.setEnabled(false);
         butAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 butAgregarActionPerformed(evt);
@@ -469,7 +527,6 @@ public class PocesoVenta extends javax.swing.JFrame {
             }
         });
 
-        txtnombre.setEditable(false);
         txtnombre.setEnabled(false);
         txtnombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -673,6 +730,12 @@ public class PocesoVenta extends javax.swing.JFrame {
 
         lblcodcompro.setText("---------------");
 
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel16.setText("TOTAL");
+
+        lbltotal.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lbltotal.setText("S/.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -691,7 +754,11 @@ public class PocesoVenta extends javax.swing.JFrame {
                                 .addGap(25, 25, 25)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(27, 27, 27)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel16))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -700,7 +767,11 @@ public class PocesoVenta extends javax.swing.JFrame {
                             .addComponent(lblcodcompro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbltotal, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -717,7 +788,10 @@ public class PocesoVenta extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel16)
+                        .addGap(0, 2, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -730,7 +804,9 @@ public class PocesoVenta extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbltotal)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -772,32 +848,99 @@ public class PocesoVenta extends javax.swing.JFrame {
 
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
 
+        objventas.eliminarpro(proaleminar);
+        total=total-Double.valueOf(tablaproductos.getValueAt(filadelatabla, 4).toString());
+        tablapro.removeRow(filadelatabla);
+        tablaproductos.setModel(tablapro);
+        lbltotal.setText(String.valueOf(total));
+        
+        objventas.actualizatotal1(total,cod_venta);
     }//GEN-LAST:event_butEliminarActionPerformed
 
     private void btnnuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoActionPerformed
         // TODO add your handling code here:
         nuevaventaveri();
+        txtnombre.setEnabled(true);
     }//GEN-LAST:event_btnnuevoActionPerformed
 
-    private void butBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butBuscarActionPerformed
-        // TODO add your handling code here:
-        datosdelcli();
-        
-    }//GEN-LAST:event_butBuscarActionPerformed
-
-    private void butGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butGuardarActionPerformed
+    private void btncancelarcompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncancelarcompraActionPerformed
         // TODO add your handling code here:
         lblcodcompro.setText(null);
         rbfactura.setEnabled(true);
         rbboleta.setEnabled(true);
         btnnuevo.setEnabled(true);
-    }//GEN-LAST:event_butGuardarActionPerformed
+        btnempezar.setEnabled(true);
+        limpiar();
+        DefaultTableModel tablabacia= new DefaultTableModel();
+        tablaproductos.setModel(tablabacia);
+        
+        objventas.eliminarcompra(cod_venta);
+        
+    }//GEN-LAST:event_btncancelarcompraActionPerformed
 
     private void butAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butAgregarActionPerformed
         // TODO add your handling code here:
         agregar_productos();
         tablaproductos.setModel(tablapro);
+        datosdetalle();
+        datoscabe();
+        if(btnnuevo.isSelected() && txtnombre.getText().trim().length()>0){
+            if(objventas.ingreventadetalle(objdataventa)){
+                System.out.print("\nBien agregado");
+                objventas.actualizatotal(objdataventa);
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "HA OCURRIDO UN ERROR");
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "NO HAY NINGUN NOMBRE DE CLIENTE");
+        }
+        
     }//GEN-LAST:event_butAgregarActionPerformed
+
+    private void txtbuscarcliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtbuscarcliActionPerformed
+        // TODO add your handling code here:
+        
+        if(txtbuscarcli.isSelected()){
+            comboBuscar.setEnabled(true);
+            txtnombre.setEnabled(false);
+        }
+        else{
+            comboBuscar.setEnabled(false);
+            limpiar();
+        }
+    }//GEN-LAST:event_txtbuscarcliActionPerformed
+
+    private void comboBuscarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBuscarItemStateChanged
+        // TODO add your handling code here:
+        datosdelcli();
+    }//GEN-LAST:event_comboBuscarItemStateChanged
+
+    private void btnempezarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnempezarActionPerformed
+        // TODO add your handling code here:
+        if(btnnuevo.isSelected() && txtnombre.getText().trim().length()>0){
+            datoscabe();
+            if(objventas.ingresoventacabe(objdataventa)){
+                JOptionPane.showMessageDialog(null, "AHORA ELIJE LOS PRODUCTOS A COMPRAR");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "ha ocurrido un error");
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "NO HAY NINGUN NOMBRE DE CLIENTE");
+        }
+    }//GEN-LAST:event_btnempezarActionPerformed
+
+    private void tablaproductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaproductosMouseClicked
+        // TODO add your handling code here:
+        filadelatabla=tablaproductos.rowAtPoint(evt.getPoint());
+        proaleminar=tablaproductos.getValueAt(filadelatabla, 0).toString();
+        
+    }//GEN-LAST:event_tablaproductosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -835,14 +978,14 @@ public class PocesoVenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btncancelarcompra;
+    private javax.swing.JButton btnempezar;
     private javax.swing.ButtonGroup btngrupsexo;
     private javax.swing.ButtonGroup btngruptipocomprobante;
     private javax.swing.JToggleButton btnnuevo;
     private javax.swing.JButton bustSalir;
     private javax.swing.JButton butAgregar;
-    private javax.swing.JButton butBuscar;
     private javax.swing.JButton butEliminar;
-    private javax.swing.JButton butGuardar;
     private javax.swing.JComboBox<String> comboBuscar;
     private javax.swing.JComboBox<String> comboBuscarProdu;
     private javax.swing.JLabel jLabel1;
@@ -852,6 +995,7 @@ public class PocesoVenta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -873,6 +1017,7 @@ public class PocesoVenta extends javax.swing.JFrame {
     private javax.swing.JLabel lblcodcompro;
     private javax.swing.JLabel lblempleado;
     private javax.swing.JLabel lblfecha;
+    private javax.swing.JLabel lbltotal;
     private javax.swing.JRadioButton rbFemenino;
     private javax.swing.JRadioButton rbboleta;
     private javax.swing.JRadioButton rbfactura;
@@ -883,6 +1028,7 @@ public class PocesoVenta extends javax.swing.JFrame {
     private javax.swing.JTextField txtDNI;
     private javax.swing.JTextField txtDirec;
     private javax.swing.JTextField txtFono;
+    private javax.swing.JToggleButton txtbuscarcli;
     private javax.swing.JTextField txtcod;
     private javax.swing.JTextField txtdistrito;
     private javax.swing.JTextField txtnombre;
