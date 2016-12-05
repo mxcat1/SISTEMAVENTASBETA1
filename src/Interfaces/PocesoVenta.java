@@ -728,6 +728,7 @@ public class PocesoVenta extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("FACTURA/BOLETA");
 
+        lblcodcompro.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblcodcompro.setText("---------------");
 
         jLabel16.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
