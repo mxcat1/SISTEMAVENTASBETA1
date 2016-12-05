@@ -9,9 +9,14 @@ import DATOS.Dempleados;
 import DATOS.conexion;
 import DATOS.datos;
 import DATOS.fotoclass;
+import UpperEssential.UpperEssentialLookAndFeel;
 import javax.swing.JOptionPane;
 import java.awt.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 /**
  *
  * @author Mxcatv
@@ -25,6 +30,11 @@ public class login extends javax.swing.JFrame {
     public fotoclass objfoto=new fotoclass();
     public Dempleados dtsemp=new Dempleados();
     public login() {
+        try {
+            UIManager.setLookAndFeel(new UpperEssentialLookAndFeel());
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         initComponents();
         this.setLocationRelativeTo(null);
         cbusers.setModel(objemp.usuariosemp());
