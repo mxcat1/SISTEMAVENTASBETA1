@@ -18,7 +18,7 @@ public class conexion {
             "databaseName=BANANITOS;user=mxcat; password=159753;";*/
 /*    public String conecionurl="jdbc:sqlserver://sql5007.smarterasp.net:1433;" +
             "databaseName=DB_A12AFD_BANANITOS;user=DB_A12AFD_BANANITOS_admin; password=mxcat159753;";*/
-    public String conecionurl="jdbc:sqlserver://localhost:1433;" +
+    public String conecionurl="jdbc:sqlserver://192.168.30.161:1433;" +
             "databaseName=BANANITOS;user=sa; password=mxcat;";
     public Connection con;
     

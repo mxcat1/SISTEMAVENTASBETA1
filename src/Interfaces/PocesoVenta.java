@@ -233,7 +233,7 @@ public class PocesoVenta extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        comboBuscar = new javax.swing.JComboBox<String>();
+        comboBuscar = new javax.swing.JComboBox<>();
         txtbuscarcli = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         btncancelarcompra = new javax.swing.JButton();
@@ -246,7 +246,7 @@ public class PocesoVenta extends javax.swing.JFrame {
         tablaproductos = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         butAgregar = new javax.swing.JButton();
-        comboBuscarProdu = new javax.swing.JComboBox<String>();
+        comboBuscarProdu = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         spncanti = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
@@ -498,12 +498,12 @@ public class PocesoVenta extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(0, 14, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboBuscarProdu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(butAgregar)
                         .addComponent(jLabel11)
-                        .addComponent(spncanti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(spncanti, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBuscarProdu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
 
@@ -850,7 +850,9 @@ public class PocesoVenta extends javax.swing.JFrame {
 
     private void butEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butEliminarActionPerformed
 
-        objventas.eliminarpro(proaleminar);
+        int conta=objventas.coddeta(cod_venta,proaleminar);
+        
+        objventas.eliminarpro(conta);
         total=total-Double.valueOf(tablaproductos.getValueAt(filadelatabla, 4).toString());
         tablapro.removeRow(filadelatabla);
         tablaproductos.setModel(tablapro);

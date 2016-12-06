@@ -113,11 +113,11 @@ public class vcventas {
             
         }
     }
-    public void eliminarpro(String cod_pro){
+    public void eliminarpro(int cod_pro){
         objcon.conexion();
         try{
-            prst=objcon.con.prepareStatement("DELETE FROM VENTA_DETALLE WHERE COD_PRO=?");
-            prst.setString(1, cod_pro);
+            prst=objcon.con.prepareStatement("DELETE FROM VENTA_DETALLE WHERE CONTA_DET=?");
+            prst.setInt(1, cod_pro);
             int n=prst.executeUpdate();
             objcon.cerrarconexion(rs, prst);
         }
@@ -157,6 +157,25 @@ public class vcventas {
             objcon.cerrarconexion(rs, prst);
         }
     }
-
     
+    public int coddeta(String codcabe, String codpro){
+        int conta;
+        objcon.conexion();
+        try{
+            prst = objcon.con.prepareStatement("SELECT CONTA_DET FROM VENTA_DETALLE WHERE COD_CABE=? AND COD_PRO=?");
+            prst.setString(1, codcabe);
+            prst.setString(2, codpro);
+            rs=prst.executeQuery();
+            rs.next();
+            conta=rs.getInt("CONTA_DET");
+            return conta;
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            objcon.cerrarconexion(rs, prst);
+            return 0;
+        }
+            
+    }
+
 }
